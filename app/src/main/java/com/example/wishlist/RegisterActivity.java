@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Patterns;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -38,7 +37,53 @@ public class RegisterActivity extends AppCompatActivity {
         buttonShowPassword1 = findViewById(R.id.buttonShowPassword1);
         buttonShowPassword2 = findViewById(R.id.buttonShowPassword2);
 
-        buttonRegister.setOnClickListener(this::onClick);
+        buttonRegister.setOnClickListener(v -> {
+            String phone = editTextPhone.getText().toString();
+            String email = editTextEmail.getText().toString();
+            String password = editTextPassword.getText().toString();
+            String confirmPassword = editTextConfirmPassword.getText().toString();
+
+            if (phone.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                Toast.makeText(RegisterActivity.this, "Заполните все поля", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(RegisterActivity.this, "Неверный формат email", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!Patterns.PHONE.matcher(phone).matches()) {
+                Toast.makeText(RegisterActivity.this, "Неверный формат номера телефона", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!password.equals(confirmPassword)) {
+                Toast.makeText(RegisterActivity.this, "Пароли не совпадают", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            new AsyncTask<Void, Void, Boolean>() {
+                @Override
+                protected Boolean doInBackground(Void... voids) {
+                    return isUserExists(phone, email);
+                }
+
+                @Override
+                protected void onPostExecute(Boolean exists) {
+                    if (exists) {
+                        Toast.makeText(RegisterActivity.this, "Пользователь с таким номером или email уже существует", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // TODO: Добавить логику регистрации пользователя
+
+                    Toast.makeText(RegisterActivity.this, "Регистрация прошла успешно", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }.execute();
+        });
 
         buttonBack.setOnClickListener(v -> finish());
 
@@ -80,53 +125,5 @@ public class RegisterActivity extends AppCompatActivity {
         // }
         // Фиктивная проверка
         return phone.equals("+79991234567") || email.equals("test@example.com");
-    }
-
-    private void onClick(View v) {
-        String phone = editTextPhone.getText().toString();
-        String email = editTextEmail.getText().toString();
-        String password = editTextPassword.getText().toString();
-        String confirmPassword = editTextConfirmPassword.getText().toString();
-
-        if (phone.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            Toast.makeText(RegisterActivity.this, "Заполните все поля", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(RegisterActivity.this, "Неверный формат email", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (!Patterns.PHONE.matcher(phone).matches()) {
-            Toast.makeText(RegisterActivity.this, "Неверный формат номера телефона", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (!password.equals(confirmPassword)) {
-            Toast.makeText(RegisterActivity.this, "Пароли не совпадают", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        new AsyncTask<Void, Void, Boolean>() {
-            @Override
-            protected Boolean doInBackground(Void... voids) {
-                return isUserExists(phone, email);
-            }
-
-            @Override
-            protected void onPostExecute(Boolean exists) {
-                if (exists) {
-                    Toast.makeText(RegisterActivity.this, "Пользователь с таким номером или email уже существует", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // TODO: Добавить логику регистрации пользователя
-
-                Toast.makeText(RegisterActivity.this, "Регистрация прошла успешно", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                finish();
-            }
-        }.execute();
     }
 }
