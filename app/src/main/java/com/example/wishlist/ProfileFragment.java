@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.AppBarLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProfileFragment extends Fragment {
 
     private AppBarLayout appBarLayout;
@@ -28,7 +31,12 @@ public class ProfileFragment extends Fragment {
         recyclerViewWishlists = view.findViewById(R.id.recyclerViewWishlists);
 
         recyclerViewWishlists.setLayoutManager(new LinearLayoutManager(getContext()));
-        // TODO: Добавить адаптер для RecyclerView
+        List<String> wishlists = new ArrayList<>();
+        wishlists.add("Список желаний 1");
+        wishlists.add("Список желаний 2");
+        wishlists.add("Список желаний 3");
+        WishlistAdapter adapter = new WishlistAdapter(wishlists);
+        recyclerViewWishlists.setAdapter(adapter);
 
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="Учетная запись">
 
@@ -16,7 +16,7 @@
             android:defaultValue="email@example.com"
             android:inputType="textEmailAddress" />
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             android:key="notifications"
             android:title="Уведомления"
             android:summary="Включить/выключить уведомления"
@@ -34,4 +34,4 @@
 
     </PreferenceCategory>
 
-</PreferenceScreen>
+</androidx.preference.PreferenceScreen>

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder> {
+public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder> {
 
     private List<Friend> friends;
 
@@ -21,17 +21,17 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FriendsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_friend, parent, false);
-        return new ViewHolder(view);
+        return new FriendsViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FriendsViewHolder holder, int position) {
         Friend friend = friends.get(position);
-        holder.imageView.setImageResource(R.drawable.profile_image); // Замените на загрузку изображения
+        holder.profileImage.setImageResource(R.drawable.profile_image); // Замените на реальное изображение
         holder.nameTextView.setText(friend.getName());
-        holder.nicknameTextView.setText(friend.getUsername());
+        holder.usernameTextView.setText(friend.getUsername());
     }
 
     @Override
@@ -39,16 +39,35 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         return friends.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
-        TextView nameTextView;
-        TextView nicknameTextView;
+    public static class FriendsViewHolder extends RecyclerView.ViewHolder {
 
-        public ViewHolder(@NonNull View itemView) {
+        ImageView profileImage;
+        TextView nameTextView;
+        TextView usernameTextView;
+
+        public FriendsViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.profileImage);
+            profileImage = itemView.findViewById(R.id.profileImage);
             nameTextView = itemView.findViewById(R.id.nameTextView);
-            nicknameTextView = itemView.findViewById(R.id.usernameTextView);
+            usernameTextView = itemView.findViewById(R.id.usernameTextView);
+        }
+    }
+
+    public static class Friend {
+        private String name;
+        private String username;
+
+        public Friend(String name, String username){
+            this.name = name;
+            this.username = username;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getUsername() {
+            return username;
         }
     }
 }

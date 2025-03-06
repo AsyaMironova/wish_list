@@ -49,13 +49,21 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        replaceFragment(new ProfileFragment()); // Изменено здесь
+        replaceFragment(new ProfileFragment()); // Отображаем ProfileFragment при запуске
     }
 
     private void replaceFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        transaction.commit(); // Удален addToBackStack
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
