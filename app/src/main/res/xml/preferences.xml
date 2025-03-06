@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Учетная запись">
+
+        <EditTextPreference
+            android:key="username"
+            android:title="Имя пользователя"
+            android:summary="Изменить имя пользователя"
+            android:defaultValue="Имя" />
+
+        <EditTextPreference
+            android:key="email"
+            android:title="Email"
+            android:summary="Изменить email"
+            android:defaultValue="email@example.com"
+            android:inputType="textEmailAddress" />
+
+        <SwitchPreference
+            android:key="notifications"
+            android:title="Уведомления"
+            android:summary="Включить/выключить уведомления"
+            android:defaultValue="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Внешний вид">
+
+        <ListPreference
+            android:key="theme"
+            android:title="Тема"
+            android:summary="Выбрать тему приложения"
+            android:entries="@array/theme_entries"
+            android:entryValues="@array/theme_values"
+            android:defaultValue="light" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

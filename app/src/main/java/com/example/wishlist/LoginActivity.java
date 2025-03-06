@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
             // TODO: Добавить логику аутентификации
 
             Toast.makeText(LoginActivity.this, "Вход выполнен", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class)); // Изменено на HomeActivity
             finish();
         });
 
