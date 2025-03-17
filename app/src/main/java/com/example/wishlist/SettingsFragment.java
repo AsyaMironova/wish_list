@@ -2,71 +2,85 @@ package com.example.wishlist;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
-import androidx.preference.SwitchPreferenceCompat;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
-    private SwitchPreferenceCompat darkThemePreference;
-    private boolean isThemeChanged = false;
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        setPreferencesFromResource(R.xml.preferences, rootKey);
+        setPreferencesFromResource(R.xml.fragment_settings, rootKey);
 
-        darkThemePreference = findPreference("dark_theme");
-        if (darkThemePreference != null) {
-            darkThemePreference.setOnPreferenceChangeListener((preference, newValue) -> {
-                boolean isChecked = (boolean) newValue;
-                if (!isThemeChanged) {
-                    isThemeChanged = true;
-                    if (isChecked) {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    } else {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    }
-                    saveThemeState(isChecked);
+        db = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build();
+        db.setFirestoreSettings(settings);
 
-                    new Handler().postDelayed(() -> replaceSettingsFragment(), 100);
-                }
-                return true;
-            });
+        mAuth = FirebaseAuth.getInstance();
+
+        loadUserData();
+
+        findPreference("username").setOnPreferenceChangeListener((preference, newValue) -> {
+            saveUserData("username", (String) newValue);
+            return true;
+        });
+        findPreference("email").setOnPreferenceChangeListener((preference, newValue) -> {
+            saveUserData("email", (String) newValue);
+            return true;
+        });
+    }
+
+    private void loadUserData() {
+        try {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            String username = prefs.getString("username", "");
+            String email = prefs.getString("email", "");
+
+            findPreference("username").setSummary(username);
+            findPreference("email").setSummary(email);
+        } catch (Exception e) {
+            Log.e("SettingsFragment", "Ошибка загрузки данных пользователя", e);
+            Toast.makeText(getContext(), "Ошибка загрузки данных пользователя", Toast.LENGTH_SHORT).show();
         }
-
-        applySavedTheme();
     }
 
-    private void applySavedTheme() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        boolean isDarkTheme = prefs.getBoolean("dark_theme", false);
-        if (isDarkTheme) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-    }
+    private void saveUserData(String key, String value) {
+        try {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(key, value);
+            editor.apply();
 
-    private void saveThemeState(boolean isDarkTheme) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("dark_theme", isDarkTheme);
-        editor.apply();
-    }
-
-    private void replaceSettingsFragment() {
-        if (getActivity() != null) {
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, new SettingsFragment());
-            transaction.addToBackStack(null);
-            transaction.commit();
-            Log.d("SettingsFragment", "replaceSettingsFragment called");
-            isThemeChanged = false; // Reset the flag
+            FirebaseUser user = mAuth.getCurrentUser();
+            if (user != null) {
+                db.collection("users").document(user.getUid())
+                        .update(key, value)
+                        .addOnSuccessListener(aVoid -> {
+                            Log.d("SettingsFragment", "Данные пользователя успешно сохранены в Firestore");
+                            Toast.makeText(getContext(), "Данные успешно сохранены", Toast.LENGTH_SHORT).show();
+                        })
+                        .addOnFailureListener(e -> {
+                            Log.w("SettingsFragment", "Ошибка сохранения данных пользователя в Firestore", e);
+                            Toast.makeText(getContext(), "Ошибка сохранения данных", Toast.LENGTH_SHORT).show();
+                        });
+            } else {
+                Toast.makeText(getContext(), "Пользователь не авторизован", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Log.e("SettingsFragment", "Ошибка сохранения данных пользователя", e);
+            Toast.makeText(getContext(), "Ошибка сохранения данных", Toast.LENGTH_SHORT).show();
         }
     }
 }

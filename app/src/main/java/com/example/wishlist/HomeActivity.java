@@ -28,25 +28,22 @@ public class HomeActivity extends AppCompatActivity {
             Log.d("HomeActivity", "bottomNavigationView initialized");
         }
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int itemId = item.getItemId();
-                Log.d("HomeActivity", "onNavigationItemSelected: " + item.getTitle());
-                if (itemId == R.id.home) {
-                    Log.d("HomeActivity", "Starting ProfileFragment");
-                    replaceFragment(new ProfileFragment());
-                    return true;
-                } else if (itemId == R.id.friends) {
-                    Log.d("HomeActivity", "Friends item selected");
-                    replaceFragment(new FriendsFragment());
-                    return true;
-                } else if (itemId == R.id.settings) {
-                    replaceFragment(new SettingsFragment());
-                    return true;
-                }
-                return false;
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            Log.d("HomeActivity", "onNavigationItemSelected: " + item.getTitle());
+            if (itemId == R.id.home) {
+                Log.d("HomeActivity", "Starting ProfileFragment");
+                replaceFragment(new ProfileFragment());
+                return true;
+            } else if (itemId == R.id.friends) {
+                Log.d("HomeActivity", "Friends item selected");
+                replaceFragment(new FriendsFragment());
+                return true;
+            } else if (itemId == R.id.settings) {
+                replaceFragment(new SettingsFragment());
+                return true;
             }
+            return false;
         });
 
         replaceFragment(new ProfileFragment()); // Отображаем ProfileFragment при запуске

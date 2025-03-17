@@ -10,11 +10,11 @@
             android:defaultValue="Имя" />
 
         <EditTextPreference
-            android:key="email"
-            android:title="Email"
-            android:summary="Изменить email"
-            android:defaultValue="email@example.com"
-            android:inputType="textEmailAddress" />
+            android:key="userId"
+            android:title="ID пользователя"
+            android:summary="Изменить ID пользователя"
+            android:defaultValue="12345"
+            android:inputType="number" />
 
         <SwitchPreferenceCompat
             android:key="notifications"

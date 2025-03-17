@@ -13,10 +13,16 @@ import java.util.List;
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.WishlistViewHolder> {
 
     private List<String> wishlists;
+    private OnItemClickListener listener; // Добавлен слушатель
 
     // Добавлен конструктор
     public WishlistAdapter(List<String> wishlists) {
         this.wishlists = wishlists;
+    }
+
+    // Добавлен метод для установки слушателя
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -30,6 +36,13 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     public void onBindViewHolder(@NonNull WishlistViewHolder holder, int position) {
         String wishlist = wishlists.get(position);
         holder.wishlistName.setText(wishlist);
+
+        // Обработка нажатия на элемент списка
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(wishlist);
+            }
+        });
     }
 
     @Override
@@ -45,5 +58,10 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             super(itemView);
             wishlistName = itemView.findViewById(R.id.wishlistName);
         }
+    }
+
+    // Интерфейс слушателя
+    public interface OnItemClickListener {
+        void onItemClick(String wishlistName);
     }
 }

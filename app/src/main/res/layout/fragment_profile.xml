@@ -55,18 +55,23 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardViewAbout"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="8dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/editTextAbout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="О себе"
+                        android:layout_margin="8dp"
+                        android:hint="О себе"
                         android:textColor="#000000"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:gravity="top|left"
+                        android:inputType="textMultiLine"
+                        android:lines="4"
+                        android:scrollbars="vertical" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -77,31 +82,41 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayoutSearch"
+        android:id="@+id/search_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:visibility="gone"
-        app:layout_anchor="@id/appBarLayout"
-        app:layout_anchorGravity="bottom">
+        android:background="@drawable/search_bar_background"
+        android:layout_margin="16dp"
+        android:layout_marginTop="?attr/actionBarSize">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_search"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp" />
 
         <EditText
             android:id="@+id/editTextSearch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="#FFFFFF"
+            android:background="@android:color/transparent"
             android:hint="Поиск"
             android:textColor="#000000"
-            android:textColorHint="#808080" />
+            android:textColorHint="#808080"
+            android:layout_marginStart="8dp" />
 
-        <Button
-            android:id="@+id/buttonCreateWishlist"
+        <ImageView
+            android:id="@+id/clear_search_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+"
-            android:textColor="#000000" />
+            android:src="@drawable/ic_clear"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -109,6 +124,24 @@
         android:id="@+id/recyclerViewWishlists"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_below="@+id/search_bar_layout"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonCreateWishlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add"
+        app:tint="@android:color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

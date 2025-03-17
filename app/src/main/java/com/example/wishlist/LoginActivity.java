@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -33,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
 
             // TODO: Добавить логику аутентификации
 
+            Log.d("LoginActivity", "Starting HomeActivity: " + HomeActivity.class.getName());
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             Toast.makeText(LoginActivity.this, "Вход выполнен", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(LoginActivity.this, HomeActivity.class)); // Изменено на HomeActivity
             finish();

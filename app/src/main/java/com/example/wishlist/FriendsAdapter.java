@@ -11,63 +11,44 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder> {
+public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendViewHolder> {
 
-    private List<Friend> friends;
+    private List<Friend> friendsList;
 
-    public FriendsAdapter(List<Friend> friends) {
-        this.friends = friends;
+    public FriendsAdapter(List<Friend> friendsList) {
+        this.friendsList = friendsList;
     }
 
     @NonNull
     @Override
-    public FriendsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FriendViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_friend, parent, false);
-        return new FriendsViewHolder(view);
+        return new FriendViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FriendsViewHolder holder, int position) {
-        Friend friend = friends.get(position);
-        holder.profileImage.setImageResource(R.drawable.profile_image); // Замените на реальное изображение
+    public void onBindViewHolder(@NonNull FriendViewHolder holder, int position) {
+        Friend friend = friendsList.get(position);
         holder.nameTextView.setText(friend.getName());
         holder.usernameTextView.setText(friend.getUsername());
+        // Добавьте код для загрузки изображения профиля, если необходимо
     }
 
     @Override
     public int getItemCount() {
-        return friends.size();
+        return friendsList.size();
     }
 
-    public static class FriendsViewHolder extends RecyclerView.ViewHolder {
-
+    public static class FriendViewHolder extends RecyclerView.ViewHolder {
         ImageView profileImage;
         TextView nameTextView;
         TextView usernameTextView;
 
-        public FriendsViewHolder(@NonNull View itemView) {
+        public FriendViewHolder(@NonNull View itemView) {
             super(itemView);
             profileImage = itemView.findViewById(R.id.profileImage);
             nameTextView = itemView.findViewById(R.id.nameTextView);
             usernameTextView = itemView.findViewById(R.id.usernameTextView);
-        }
-    }
-
-    public static class Friend {
-        private String name;
-        private String username;
-
-        public Friend(String name, String username){
-            this.name = name;
-            this.username = username;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getUsername() {
-            return username;
         }
     }
 }
