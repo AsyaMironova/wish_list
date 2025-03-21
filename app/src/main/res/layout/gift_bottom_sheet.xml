@@ -1,16 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone" />
 
     <EditText
         android:id="@+id/editTextGiftName"
@@ -22,14 +14,7 @@
         android:id="@+id/editTextGiftDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Описание"
-        android:layout_marginTop="8dp" />
-
-    <EditText
-        android:id="@+id/editTextGiftLink"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Ссылка"
+        android:hint="Описание подарка"
         android:layout_marginTop="8dp" />
 
     <EditText
@@ -37,22 +22,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Цена"
+        android:inputType="numberDecimal"
         android:layout_marginTop="8dp" />
 
     <Button
         android:id="@+id/buttonSaveGift"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Сохранить"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp" />
-
-    <Button
-        android:id="@+id/buttonDeleteGift"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Удалить"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp" />
-
+        android:layout_marginTop="12dp" />
 </LinearLayout>

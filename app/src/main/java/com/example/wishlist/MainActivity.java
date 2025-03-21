@@ -1,10 +1,8 @@
 package com.example.wishlist;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.wishlist.ui.profile.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,10 +11,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button buttonLogin = findViewById(R.id.buttonLogin);
-        Button buttonRegister = findViewById(R.id.buttonRegister);
-
-        buttonLogin.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
-        buttonRegister.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RegisterActivity.class)));
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new ProfileFragment())
+                    .commit();
+        }
     }
 }

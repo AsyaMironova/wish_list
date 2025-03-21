@@ -1,19 +1,16 @@
-package com.example.wishlist;
+package com.example.wishlist.models;
 
 public class Gift {
+    private String id;
     private String name;
     private String description;
     private String link;
     private String price;
 
-    public Gift() {}  // Пустой конструктор нужен для Firebase
+    public Gift() {}
 
-    public Gift(String name, String description, String link, String price) {
-        this.name = name;
-        this.description = description;
-        this.link = link;
-        this.price = price;
-    }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

@@ -1,14 +1,14 @@
 package com.example.wishlist;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
+import com.example.wishlist.ui.friends.FriendsFragment;
+import com.example.wishlist.ui.profile.ProfileFragment;
+import com.example.wishlist.ui.settings.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
@@ -22,45 +22,36 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-        if (bottomNavigationView == null) {
-            Log.e("HomeActivity", "bottomNavigationView is null");
-        } else {
-            Log.d("HomeActivity", "bottomNavigationView initialized");
+        // Установка начального фрагмента
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new ProfileFragment())
+                    .commit();
         }
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            Log.d("HomeActivity", "onNavigationItemSelected: " + item.getTitle());
-            if (itemId == R.id.home) {
-                Log.d("HomeActivity", "Starting ProfileFragment");
-                replaceFragment(new ProfileFragment());
+        bottomNavigationView.setBackgroundColor(getResources().getColor(R.color.purple_100));
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.home) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new ProfileFragment())
+                        .commit();
                 return true;
-            } else if (itemId == R.id.friends) {
-                Log.d("HomeActivity", "Friends item selected");
-                replaceFragment(new FriendsFragment());
+            } else if (id == R.id.friends) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new FriendsFragment())
+                        .commit();
                 return true;
-            } else if (itemId == R.id.settings) {
-                replaceFragment(new SettingsFragment());
+            } else if (id == R.id.settings) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new SettingsFragment())
+                        .commit();
                 return true;
+            } else {
+                Toast.makeText(this, "Неизвестный пункт меню", Toast.LENGTH_SHORT).show();
+                return false;
             }
-            return false;
         });
-
-        replaceFragment(new ProfileFragment()); // Отображаем ProfileFragment при запуске
-    }
-
-    private void replaceFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.commit(); // Удален addToBackStack
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            getSupportFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
-        }
     }
 }

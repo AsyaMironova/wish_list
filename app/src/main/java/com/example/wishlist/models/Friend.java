@@ -1,14 +1,10 @@
-package com.example.wishlist;
+package com.example.wishlist.models;
 
 public class Friend {
     private String name;
     private String username;
-
-    public Friend() {} // Пустой конструктор
-
-    public Friend(String name, String username) {
-        this.name = name;
-        this.username = username;
+    private String id;
+    public Friend() {
     }
 
     public String getName() {
@@ -25,5 +21,9 @@ public class Friend {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getId() {
+        return id;
     }
 }

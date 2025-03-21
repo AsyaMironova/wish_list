@@ -1,35 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- res/layout/item_gift.xml -->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:layout_margin="8dp"
+    android:elevation="4dp">
 
-    <TextView
-        android:id="@+id/textViewGiftName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/textViewGiftDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:layout_marginTop="4dp" />
+        <TextView
+            android:id="@+id/textViewGiftName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gift name"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/textViewGiftLink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:layout_marginTop="4dp" />
+        <TextView
+            android:id="@+id/textViewGiftDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gift description"
+            android:textSize="14sp"
+            android:paddingTop="2dp"/>
 
-    <TextView
-        android:id="@+id/textViewGiftPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:layout_marginTop="4dp" />
+        <TextView
+            android:id="@+id/textViewGiftPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="500 ₽"
+            android:textSize="14sp"
+            android:textColor="#388E3C"
+            android:paddingTop="4dp"/>
 
-</LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
