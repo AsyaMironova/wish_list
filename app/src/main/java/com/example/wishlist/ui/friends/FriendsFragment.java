@@ -26,7 +26,6 @@ public class FriendsFragment extends Fragment {
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private FriendsAdapter friendsAdapter;
-    private List<Friend> friendList = new ArrayList<>();
     private FriendsViewModel viewModel;
 
     @Nullable
@@ -36,18 +35,15 @@ public class FriendsFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recyclerView);
         progressBar = view.findViewById(R.id.progressBar);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        friendsAdapter = new FriendsAdapter(new FriendsAdapter.OnFriendClickListener() {
-            @Override
-            public void onFriendClick(Friend friend) {
-                FriendWishlistsFragment fragment = FriendWishlistsFragment.newInstance(friend.getId());
-                requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, fragment)
-                        .addToBackStack(null)
-                        .commit();
-            }
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        friendsAdapter = new FriendsAdapter(friend -> {
+            FriendWishlistsFragment fragment = FriendWishlistsFragment.newInstance(friend.getId());
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .addToBackStack(null)
+                    .commit();
         });
 
         recyclerView.setAdapter(friendsAdapter);

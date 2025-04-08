@@ -10,6 +10,7 @@ activity = "1.10.0"
 constraintlayout = "2.2.0"
 preference = "1.2.1"
 firebaseFirestore = "25.1.2"
+navigationRuntimeAndroid = "2.9.0-alpha09"
 
 [libraries]
 android-activation = { module = "com.sun.mail:android-activation", version.ref = "androidActivation" }
@@ -23,6 +24,7 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
+navigation-runtime-android = { group = "androidx.navigation", name = "navigation-runtime-android", version.ref = "navigationRuntimeAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

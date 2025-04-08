@@ -1,95 +1,107 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#E6CCFF">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Light">
+        android:layout_height="wrap_content">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsingToolbar"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:background="#E6CCFF">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="16dp"
+                android:paddingBottom="24dp">
 
                 <ImageView
                     android:id="@+id/imageViewProfile"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/ic_profile"
-                    android:layout_marginTop="24dp" />
+                    android:background="@drawable/avatar_circle_bg"
+                    android:padding="6dp"
+                    android:layout_marginEnd="24dp"
+                    android:contentDescription="@string/profile_picture" />
 
-                <TextView
-                    android:id="@+id/textViewName"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="8dp"
-                    android:text="Мария Михайловна"
-                    android:textSize="20sp"
-                    android:textColor="#000000" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textViewNickname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="@Maria"
-                    android:textColor="#808080" />
+                    <EditText
+                        android:id="@+id/editTextNickname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Никнейм"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:background="@null" />
 
+                    <EditText
+                        android:id="@+id/editTextUserId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="user_id"
+                        android:textSize="14sp"
+                        android:textColor="#444444"
+                        android:background="@null" />
+                </LinearLayout>
             </LinearLayout>
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="О себе"
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:layout_marginBottom="8dp" />
 
-    <LinearLayout
-        android:id="@+id/linearLayoutSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="@drawable/search_bar_background"
-        android:visibility="gone"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <EditText
+                android:id="@+id/editTextProfileAbout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Описание профиля..."
+                android:background="@drawable/search_bar_background"
+                android:padding="12dp"
+                android:textColor="#000000"
+                android:inputType="textMultiLine"
+                android:minLines="3"
+                android:layout_marginBottom="16dp" />
 
-        <EditText
-            android:id="@+id/editTextSearch"
-            android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Мои виш-листы"
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewWishlists"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                android:nestedScrollingEnabled="false" />
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabCreateWishlist"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Поиск"
-            android:background="@android:color/transparent"
-            android:textColor="#000000"
-            android:textColorHint="#808080" />
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewWishlists"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/buttonCreateWishlist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add"
-        app:tint="@android:color/white"
-        app:backgroundTint="#BA68C8" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_add"
+            app:tint="@android:color/white" />
+    </FrameLayout>
+</ScrollView>

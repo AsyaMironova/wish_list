@@ -18,11 +18,9 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
     private List<WishList> wishlists = new ArrayList<>();
     private final OnWishlistClickListener listener;
-    private Object wishlistList;
 
     public WishlistAdapter(OnWishlistClickListener listener) {
         this.listener = listener;
-        this.wishlists = new ArrayList<>();
     }
 
     public void setWishlists(List<WishList> wishlists) {
@@ -33,7 +31,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     @NonNull
     @Override
     public WishlistViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_friend_wishlist, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_friend_wishlist, parent, false);
         return new WishlistViewHolder(view);
     }
 
@@ -41,8 +40,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     public void onBindViewHolder(@NonNull WishlistViewHolder holder, int position) {
         WishList wishlist = wishlists.get(position);
         holder.titleTextView.setText(wishlist.getName());
-        holder.descriptionTextView.setText(wishlist.getDescription());
-
         holder.itemView.setOnClickListener(v -> listener.onWishlistClick(wishlist));
     }
 
@@ -51,26 +48,17 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
         return wishlists.size();
     }
 
-    public void setWishlistList(Object wishlistList) {
-        this.wishlistList = wishlistList;
-    }
-
-    public Object getWishlistList() {
-        return wishlistList;
-    }
-
     public interface OnWishlistClickListener {
         void onWishlistClick(WishList wishlist);
     }
 
     static class WishlistViewHolder extends RecyclerView.ViewHolder {
 
-        TextView titleTextView, descriptionTextView;
+        TextView titleTextView;
 
         public WishlistViewHolder(@NonNull View itemView) {
             super(itemView);
-            titleTextView = itemView.findViewById(R.id.textViewWishlistTitle);
-            descriptionTextView = itemView.findViewById(R.id.textViewWishlistDescription);
+            titleTextView = itemView.findViewById(R.id.textViewWishlistName);
         }
     }
 }

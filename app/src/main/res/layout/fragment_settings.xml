@@ -17,4 +17,17 @@
         android:layout_height="wrap_content"
         android:text="Выйти"
         android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/editTextNickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Имя пользователя" />
+
+    <Button
+        android:id="@+id/buttonSaveNickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Сохранить имя" />
+
 </LinearLayout>

@@ -5,48 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e04cca92-e8a6-43a4-8fb3-e055607027e7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/AndroidProjectSystem.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/appInsightsSettings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/AndroidProjectSystem.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/wishlist/Friend.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/wishlist/FriendsAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/wishlist/FriendsFragment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/wishlist/Gift.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/wishlist/GiftAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/wishlist/HomeActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/wishlist/ProfileFragment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/wishlist/SettingsFragment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/wishlist/WishlistAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/profile_image.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/activity_home.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/dialog_gift.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/dialog_wishlist.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/fragment_friends.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/fragment_profile.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/fragment_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/item_friend.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/item_gift.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/item_wishlist.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/values/arrays.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/xml/preferences.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wishlist/ForgotPasswordActivity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wishlist/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wishlist/LoginActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wishlist/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wishlist/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wishlist/ProfileActivity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wishlist/RegisterActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wishlist/RegisterActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_forgot_password.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_profile.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_reset_password.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_verify_code.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/values-night/themes.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/values/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/values/themes.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gradle/libs.versions.toml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/checksums/checksums.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/classes/org/gradle/accessors/dm/LibrariesForLibs$AndroidLibraryAccessors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/classes/org/gradle/accessors/dm/LibrariesForLibs$AndroidPluginAccessors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/classes/org/gradle/accessors/dm/LibrariesForLibs$BundleAccessors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/classes/org/gradle/accessors/dm/LibrariesForLibs$EspressoLibraryAccessors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/classes/org/gradle/accessors/dm/LibrariesForLibs$ExtLibraryAccessors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/classes/org/gradle/accessors/dm/LibrariesForLibs$PluginAccessors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/classes/org/gradle/accessors/dm/LibrariesForLibs$VersionAccessors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/classes/org/gradle/accessors/dm/LibrariesForLibs.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/classes/org/gradle/accessors/dm/LibrariesForLibsInPluginsBlock$AndroidLibraryAccessors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/classes/org/gradle/accessors/dm/LibrariesForLibsInPluginsBlock$AndroidPluginAccessors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/classes/org/gradle/accessors/dm/LibrariesForLibsInPluginsBlock$BundleAccessors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/classes/org/gradle/accessors/dm/LibrariesForLibsInPluginsBlock$EspressoLibraryAccessors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/classes/org/gradle/accessors/dm/LibrariesForLibsInPluginsBlock$ExtLibraryAccessors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/classes/org/gradle/accessors/dm/LibrariesForLibsInPluginsBlock$PluginAccessors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/classes/org/gradle/accessors/dm/LibrariesForLibsInPluginsBlock$VersionAccessors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/classes/org/gradle/accessors/dm/LibrariesForLibsInPluginsBlock.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/metadata.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/sources/org/gradle/accessors/dm/LibrariesForLibs.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/4dd22cf5c92e2072c794e8a5c00c568b1ecb27fc/sources/org/gradle/accessors/dm/LibrariesForLibsInPluginsBlock.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/dependencies-accessors/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/executionHistory/executionHistory.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/fileChanges/last-build.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/fileHashes/fileHashes.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/fileHashes/fileHashes.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/fileHashes/resourceHashesCache.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/8.10.2/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/buildOutputCleanup/cache.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,8 +77,9 @@
     "android.gradle.sync.needed": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "develop",
-    "kotlin-language-version-configured": "true"
+    "git-widget-placeholder": "release1",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/asya/Desktop/wish_list/app"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

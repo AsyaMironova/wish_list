@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,40 +14,81 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.wishlist.R;
 import com.example.wishlist.adapters.WishlistAdapter;
+import com.example.wishlist.models.WishList;
+import com.example.wishlist.ui.gifts.GiftListFragment;
 import com.example.wishlist.viewmodels.ProfileViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ProfileFragment extends Fragment {
 
-    private RecyclerView recyclerViewWishlists;
     private ProfileViewModel viewModel;
-    private WishlistAdapter adapter;
+    private WishlistAdapter wishlistAdapter;
+
+    private EditText editTextNickname;
+    private EditText editTextUserId;
+    private EditText editTextAbout;
+    private ImageView imageViewProfile;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        recyclerViewWishlists = view.findViewById(R.id.recyclerViewWishlists);
+        editTextNickname = view.findViewById(R.id.editTextNickname);
+        editTextUserId = view.findViewById(R.id.editTextUserId);
+        editTextAbout = view.findViewById(R.id.editTextProfileAbout);
+        imageViewProfile = view.findViewById(R.id.imageViewProfile);
+        RecyclerView recyclerViewWishlists = view.findViewById(R.id.recyclerViewWishlists);
+        FloatingActionButton fabCreateWishlist = view.findViewById(R.id.fabCreateWishlist);
+
         recyclerViewWishlists.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        adapter = new WishlistAdapter(wishlist -> {
-            // Обработка клика по вишлисту
+        wishlistAdapter = new WishlistAdapter(wishlist -> {
+            Fragment fragment = GiftListFragment.newInstance(wishlist.getId());
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .addToBackStack(null)
+                    .commit();
         });
-
-        recyclerViewWishlists.setAdapter(adapter);
+        recyclerViewWishlists.setAdapter(wishlistAdapter);
 
         viewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
 
-        viewModel.getWishlistsLiveData().observe(getViewLifecycleOwner(), wishlists -> {
-            adapter.setWishlists(wishlists);
+        viewModel.getUserNickname().observe(getViewLifecycleOwner(), editTextNickname::setText);
+        viewModel.getUserId().observe(getViewLifecycleOwner(), editTextUserId::setText);
+        viewModel.getUserAbout().observe(getViewLifecycleOwner(), editTextAbout::setText);
+        viewModel.getWishlists().observe(getViewLifecycleOwner(), wishlistAdapter::setWishlists);
+        viewModel.getProfileImageUrl().observe(getViewLifecycleOwner(), url ->
+                Glide.with(requireContext()).load(url)
+                        .placeholder(R.drawable.ic_profile)
+                        .into(imageViewProfile)
+        );
+
+        editTextAbout.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) viewModel.updateAbout(editTextAbout.getText().toString());
         });
 
-        viewModel.getUserLiveData().observe(getViewLifecycleOwner(), user -> {
-            // Заполнение профиля данными
+        editTextNickname.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) viewModel.updateNickname(editTextNickname.getText().toString());
         });
+
+        editTextUserId.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) viewModel.updateUserId(editTextUserId.getText().toString());
+        });
+
+        fabCreateWishlist.setOnClickListener(v -> {
+            WishlistBottomSheet sheet = new WishlistBottomSheet();
+            sheet.setOnSaveListener((name, description) -> {
+                WishList newWishlist = new WishList(name, description);
+                viewModel.createWishlist(newWishlist);
+            });
+            sheet.show(getParentFragmentManager(), "WishlistBottomSheet");
+        });
+
+        viewModel.fetchUser();
 
         return view;
     }

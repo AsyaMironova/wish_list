@@ -20,7 +20,7 @@ public class WishlistBottomSheet extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.gift_bottom_sheet, container, false);
+        View view = inflater.inflate(R.layout.wishlist_bottom_sheet, container, false);
 
         EditText nameEditText = view.findViewById(R.id.editTextWishlistName);
         EditText descEditText = view.findViewById(R.id.editTextWishlistDescription);

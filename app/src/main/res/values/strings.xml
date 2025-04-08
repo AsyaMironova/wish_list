@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WishList</string>
+    <string name="profile_picture">Фото профиля</string>
+    <string name="default_web_client_id">503054877203-2vo5nk106k2nh4pordoc1v12rnfnqmut.apps.googleusercontent.com</string>
 </resources>
