@@ -1,5 +1,6 @@
 package com.example.wishlist.ui.profile;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.example.wishlist.models.WishList;
 import com.example.wishlist.ui.gifts.GiftListFragment;
 import com.example.wishlist.viewmodels.ProfileViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileFragment extends Fragment {
 
@@ -52,6 +54,15 @@ public class ProfileFragment extends Fragment {
                     .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
                     .commit();
+        }, wishlist -> {
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Удалить виш-лист?")
+                    .setMessage("Вы уверены, что хотите удалить виш-лист \"" + wishlist.getName() + "\"?")
+                    .setPositiveButton("Удалить", (dialog, which) -> {
+                        viewModel.deleteWishlist(wishlist);
+                    })
+                    .setNegativeButton("Отмена", null)
+                    .show();
         });
         recyclerViewWishlists.setAdapter(wishlistAdapter);
 
@@ -91,5 +102,10 @@ public class ProfileFragment extends Fragment {
         viewModel.fetchUser();
 
         return view;
+
     }
+
+    @Override
+    public void onResume() {
+        super.onResume(); }
 }

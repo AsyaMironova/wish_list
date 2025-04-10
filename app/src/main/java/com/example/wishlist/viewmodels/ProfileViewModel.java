@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.wishlist.data.FirebaseRepository;
 import com.example.wishlist.models.User;
 import com.example.wishlist.models.WishList;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -73,7 +74,8 @@ public class ProfileViewModel extends ViewModel {
             @Override
             public void onSuccess(User user) {
                 userLiveData.setValue(user);
-                fetchWishlists(user.getId());
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                fetchWishlists(uid);
             }
 
             @Override
@@ -85,9 +87,11 @@ public class ProfileViewModel extends ViewModel {
     }
 
     public void fetchWishlists(String userId) {
+        Log.d("ProfileVM", "Fetching wishlists for userId: " + userId);
         repository.getUserWishlists(userId, new FirebaseRepository.OnWishlistsLoadedListener() {
             @Override
             public void onSuccess(List<WishList> wishlists) {
+                Log.d("ProfileVM", "Wishlists loaded: " + wishlists.size());
                 wishlistsLiveData.setValue(wishlists);
                 isLoading.setValue(false);
             }
@@ -101,6 +105,8 @@ public class ProfileViewModel extends ViewModel {
     }
 
     public void createWishlist(WishList wishlist) {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        wishlist.setUserId(uid);
         addWishlist(wishlist);
     }
 
@@ -148,12 +154,27 @@ public class ProfileViewModel extends ViewModel {
         repository.uploadUserProfileImage(imageUri, new FirebaseRepository.OnImageUploadListener() {
             @Override
             public void onSuccess(String imageUrl) {
-                // Update LiveData if necessary
+                // Optionally update userLiveData
             }
 
             @Override
             public void onFailure(Exception e) {
                 Log.e("ProfileViewModel", "Image upload failed", e);
+            }
+        });
+    }
+
+    public void deleteWishlist(WishList wishlist) {
+        repository.deleteWishlist(wishlist, new FirebaseRepository.OnWishlistDeletedListener() {
+            @Override
+            public void onSuccess() {
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                fetchWishlists(uid);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                error.setValue(e.getMessage());
             }
         });
     }

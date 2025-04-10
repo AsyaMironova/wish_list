@@ -25,6 +25,9 @@ public class FriendsViewModel extends ViewModel {
     private final MutableLiveData<String> error = new MutableLiveData<>(null);
     private LiveData<Object> friends;
 
+    private final MutableLiveData<List<WishList>> wishlistsLiveData = new MutableLiveData<>();
+    private LiveData<Object> friendWishlists;
+
     public LiveData<List<User>> getFriendsLiveData() {
         return friendsLiveData;
     }
@@ -118,6 +121,39 @@ public class FriendsViewModel extends ViewModel {
         return result;
     }
 
+    public void deleteWishlist(WishList wishlist) {
+        repository.deleteWishlist(wishlist, new FirebaseRepository.OnWishlistDeletedListener() {
+            @Override
+            public void onSuccess() {
+                fetchFriendWishlists(); // Обнови список, если нужно
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                // Обработка ошибки (опционально)
+            }
+        });
+    }
+
+    public void fetchFriendWishlists() {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        repository.getUserWishlists(userId, new FirebaseRepository.OnWishlistsLoadedListener() {
+            @Override
+            public void onSuccess(List<WishList> wishlists) {
+                wishlistsLiveData.setValue(wishlists);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                error.setValue(e.getMessage());
+            }
+        });
+    }
+
+    public LiveData<List<WishList>> getWishlistsLiveData() {
+        return wishlistsLiveData;
+    }
+
     public void setFriends(LiveData<Object> friends) {
         this.friends = friends;
     }
@@ -125,5 +161,13 @@ public class FriendsViewModel extends ViewModel {
     public void loadFriends() {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         fetchFriends(currentUserId);
+    }
+
+    public LiveData<Object> getFriendWishlists() {
+        return friendWishlists;
+    }
+
+    public void setFriendWishlists(LiveData<Object> friendWishlists) {
+        this.friendWishlists = friendWishlists;
     }
 }

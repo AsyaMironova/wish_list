@@ -180,6 +180,10 @@ public class FirebaseRepository {
                 .delete();
     }
 
+    public interface OnWishlistDeletedListener {
+        void onSuccess();
+        void onFailure(Exception e);
+    }
     // Interfaces
     public interface OnUserLoadedListener {
         void onSuccess(User user);
@@ -224,5 +228,14 @@ public class FirebaseRepository {
                 .set(user)
                 .addOnSuccessListener(aVoid -> Log.d("FirebaseRepo", "User updated"))
                 .addOnFailureListener(e -> Log.e("FirebaseRepo", "Failed to update user", e));
+    }
+
+    public void deleteWishlist(WishList wishlist, OnWishlistDeletedListener listener) {
+        FirebaseFirestore.getInstance()
+                .collection("wishlists")
+                .document(wishlist.getId())
+                .delete()
+                .addOnSuccessListener(unused -> listener.onSuccess())
+                .addOnFailureListener(listener::onFailure);
     }
 }
