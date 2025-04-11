@@ -4,14 +4,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.wishlist.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.example.wishlist.ui.gifts.GiftBottomSheet;
+
+import java.util.Arrays;
 
 public class WishlistBottomSheet extends BottomSheetDialogFragment {
 
@@ -37,6 +42,21 @@ public class WishlistBottomSheet extends BottomSheetDialogFragment {
                 onSaveListener.onSave(name, desc);
             }
             dismiss();
+        });
+
+        Spinner privacySpinner = view.findViewById(R.id.spinnerPrivacy);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                Arrays.asList("Только я", "Друзья", "Все")
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        privacySpinner.setAdapter(adapter);
+
+        Button addGiftButton = view.findViewById(R.id.buttonAddGift);
+        addGiftButton.setOnClickListener(v -> {
+            GiftBottomSheet giftBottomSheet = new GiftBottomSheet();
+            giftBottomSheet.show(getParentFragmentManager(), "GiftBottomSheet");
         });
 
         return view;

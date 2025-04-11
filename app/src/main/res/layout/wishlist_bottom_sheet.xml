@@ -18,11 +18,23 @@
         android:hint="Описание"
         android:layout_marginTop="8dp" />
 
+    <Spinner
+        android:id="@+id/spinnerPrivacy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/buttonAddGift"
+        android:layout_width="381dp"
+        android:layout_height="wrap_content"
+        android:text="Добавить подарок" />
+
     <Button
         android:id="@+id/buttonSaveWishlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Создать"
         android:layout_marginTop="12dp" />
+
 
 </LinearLayout>

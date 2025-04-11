@@ -26,6 +26,8 @@ public class GiftBottomSheet extends BottomSheetDialogFragment {
         EditText descEditText = view.findViewById(R.id.editTextGiftDescription);
         EditText priceEditText = view.findViewById(R.id.editTextGiftPrice);
         Button saveButton = view.findViewById(R.id.buttonSaveGift);
+        EditText linkEditText = view.findViewById(R.id.editTextGiftLink);
+        String link = linkEditText.getText().toString().trim();
 
         saveButton.setOnClickListener(v -> {
             String name = nameEditText.getText().toString().trim();
@@ -42,8 +44,9 @@ public class GiftBottomSheet extends BottomSheetDialogFragment {
             }
 
             if (onGiftSaveListener != null) {
-                onGiftSaveListener.onSave(name, desc, price);
+                onGiftSaveListener.onSave(name, desc, price, link);
             }
+
             dismiss();
         });
 
@@ -55,6 +58,6 @@ public class GiftBottomSheet extends BottomSheetDialogFragment {
     }
 
     public interface OnGiftSaveListener {
-        void onSave(String name, String description, String price);
+        void onSave(String name, String description, String price, String link);
     }
 }
