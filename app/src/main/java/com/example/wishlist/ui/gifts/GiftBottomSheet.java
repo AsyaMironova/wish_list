@@ -18,15 +18,24 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class GiftBottomSheet extends BottomSheetDialogFragment {
 
-    private OnGiftSaveListener onGiftSaveListener;
-    private OnGiftDeleteListener onGiftDeleteListener;
+    private String wishlistId;
+    private Gift gift;
 
-    private boolean isEditMode = false;
-    private String initialGiftId;
+    public static GiftBottomSheet newInstance(Gift gift, String wishlistId) {
+        GiftBottomSheet sheet = new GiftBottomSheet();
+        Bundle args = new Bundle();
+        args.putString("wishlistId", wishlistId);
+        args.putString("giftId", gift.getId());
+        args.putString("name", gift.getName());
+        args.putString("description", gift.getDescription());
+        args.putString("price", gift.getPrice());
+        args.putString("link", gift.getLink());
+        sheet.setArguments(args);
+        return sheet;
+    }
 
-    public void setEditMode(String giftId) {
-        isEditMode = true;
-        initialGiftId = giftId;
+    public void setWishlistId(String wishlistId) {
+        this.wishlistId = wishlistId;
     }
 
     @Nullable
@@ -41,7 +50,19 @@ public class GiftBottomSheet extends BottomSheetDialogFragment {
         Button saveButton = view.findViewById(R.id.buttonSaveGift);
         Button deleteButton = view.findViewById(R.id.buttonDeleteGift);
 
-        if (isEditMode) {
+        if (getArguments() != null) {
+            gift = new Gift();
+            gift.setId(getArguments().getString("giftId"));
+            gift.setName(getArguments().getString("name"));
+            gift.setDescription(getArguments().getString("description"));
+            gift.setPrice(getArguments().getString("price"));
+            gift.setLink(getArguments().getString("link"));
+
+            nameEditText.setText(gift.getName());
+            descEditText.setText(gift.getDescription());
+            linkEditText.setText(gift.getLink());
+            priceEditText.setText(gift.getPrice());
+
             deleteButton.setVisibility(View.VISIBLE);
         }
 
@@ -55,67 +76,51 @@ public class GiftBottomSheet extends BottomSheetDialogFragment {
                 nameEditText.setError("Введите название подарка");
                 return;
             }
-            if (price.isEmpty()) {
-                priceEditText.setError("Введите цену");
-                return;
+
+            Gift newGift = new Gift();
+            newGift.setId(gift != null ? gift.getId() : null);
+            newGift.setName(name);
+            newGift.setDescription(desc);
+            newGift.setLink(link);
+            newGift.setPrice(price);
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            if (newGift.getId() != null) {
+                db.collection("wishlists")
+                        .document(wishlistId)
+                        .collection("gifts")
+                        .document(newGift.getId())
+                        .set(newGift);
+            } else {
+                db.collection("wishlists")
+                        .document(wishlistId)
+                        .collection("gifts")
+                        .add(newGift);
             }
 
-            if (onGiftSaveListener != null) {
-                onGiftSaveListener.onSave(name, desc, price, link);
-            }
             dismiss();
         });
 
         deleteButton.setOnClickListener(v -> {
-            new AlertDialog.Builder(requireContext())
-                    .setTitle("Удалить подарок?")
-                    .setMessage("Вы уверены, что хотите удалить этот подарок?")
-                    .setPositiveButton("Удалить", (dialog, which) -> {
-                        if (onGiftDeleteListener != null) {
-                            onGiftDeleteListener.onDelete(initialGiftId);
-                        }
-                        dismiss();
-                    })
-                    .setNegativeButton("Отмена", null)
-                    .show();
+            if (gift != null && gift.getId() != null) {
+                new AlertDialog.Builder(requireContext())
+                        .setTitle("Удалить подарок?")
+                        .setMessage("Вы уверены, что хотите удалить этот подарок?")
+                        .setPositiveButton("Удалить", (dialog, which) -> {
+                            FirebaseFirestore.getInstance()
+                                    .collection("wishlists")
+                                    .document(wishlistId)
+                                    .collection("gifts")
+                                    .document(gift.getId())
+                                    .delete();
+                            dismiss();
+                        })
+                        .setNegativeButton("Отмена", null)
+                        .show();
+            }
         });
 
         return view;
-    }
-
-    public void setOnGiftSaveListener(OnGiftSaveListener listener) {
-        this.onGiftSaveListener = listener;
-    }
-
-    public void setOnGiftDeleteListener(OnGiftDeleteListener listener) {
-        this.onGiftDeleteListener = listener;
-    }
-
-    public interface OnGiftSaveListener {
-        void onSave(String name, String description, String price, String link);
-    }
-
-    public static GiftBottomSheet newInstance(Gift gift) {
-        GiftBottomSheet bottomSheet = new GiftBottomSheet();
-        Bundle args = new Bundle();
-        args.putString("giftId", gift.getId());
-        args.putString("title", gift.getTitle());
-        args.putString("description", gift.getDescription());
-        args.putString("link", gift.getLink());
-        bottomSheet.setArguments(args);
-        return bottomSheet;
-    }
-
-    public void deleteGift(String wishlistId, String giftId) {
-        FirebaseFirestore.getInstance()
-                .collection("wishlists")
-                .document(wishlistId)
-                .collection("gifts")
-                .document(giftId)
-                .delete();
-    }
-
-    public interface OnGiftDeleteListener {
-        void onDelete(String giftId);
     }
 }

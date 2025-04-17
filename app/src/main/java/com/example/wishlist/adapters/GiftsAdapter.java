@@ -48,11 +48,15 @@ public class GiftsAdapter extends RecyclerView.Adapter<GiftsAdapter.GiftViewHold
         return giftList.size();
     }
 
-    
-
     class GiftViewHolder extends RecyclerView.ViewHolder {
+        TextView nameView, descView, priceView;
+
         public GiftViewHolder(@NonNull View itemView) {
             super(itemView);
+            nameView = itemView.findViewById(R.id.textViewGiftName);
+            descView = itemView.findViewById(R.id.textViewGiftDescription);
+            priceView = itemView.findViewById(R.id.textViewGiftPrice);
+
             itemView.setOnClickListener(v -> clickListener.onGiftClick(giftList.get(getAdapterPosition())));
             itemView.setOnLongClickListener(v -> {
                 deleteListener.onGiftDelete(giftList.get(getAdapterPosition()));
@@ -60,9 +64,10 @@ public class GiftsAdapter extends RecyclerView.Adapter<GiftsAdapter.GiftViewHold
             });
         }
 
-
         public void bind(Gift gift) {
-            // Привязка данных к itemView
+            nameView.setText(gift.getName());
+            descView.setText(gift.getDescription());
+            priceView.setText(gift.getPrice() + " ₽");
         }
     }
 

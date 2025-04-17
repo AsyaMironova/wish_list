@@ -7,8 +7,6 @@ public class Gift {
     private String link;
     private String price;
 
-    private String title;
-
     public Gift() {}
 
     public String getId() { return id; }
@@ -20,9 +18,6 @@ public class Gift {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public String getTitle() {
-        return title;
-    }
     public String getLink() { return link; }
     public void setLink(String link) { this.link = link; }
 
