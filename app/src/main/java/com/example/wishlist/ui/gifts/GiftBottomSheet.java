@@ -2,6 +2,7 @@ package com.example.wishlist.ui.gifts;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 import com.example.wishlist.R;
 import com.example.wishlist.models.Gift;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class GiftBottomSheet extends BottomSheetDialogFragment {
@@ -34,10 +36,6 @@ public class GiftBottomSheet extends BottomSheetDialogFragment {
         return sheet;
     }
 
-    public void setWishlistId(String wishlistId) {
-        this.wishlistId = wishlistId;
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,6 +49,8 @@ public class GiftBottomSheet extends BottomSheetDialogFragment {
         Button deleteButton = view.findViewById(R.id.buttonDeleteGift);
 
         if (getArguments() != null) {
+            wishlistId = getArguments().getString("wishlistId");
+
             gift = new Gift();
             gift.setId(getArguments().getString("giftId"));
             gift.setName(getArguments().getString("name"));
@@ -84,41 +84,41 @@ public class GiftBottomSheet extends BottomSheetDialogFragment {
             newGift.setLink(link);
             newGift.setPrice(price);
 
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            CollectionReference giftsRef = FirebaseFirestore.getInstance()
+                    .collection("wishlists")
+                    .document(wishlistId)
+                    .collection("gifts");
 
             if (newGift.getId() != null) {
-                db.collection("wishlists")
-                        .document(wishlistId)
-                        .collection("gifts")
-                        .document(newGift.getId())
-                        .set(newGift);
+                giftsRef.document(newGift.getId()).set(newGift);
             } else {
-                db.collection("wishlists")
-                        .document(wishlistId)
-                        .collection("gifts")
-                        .add(newGift);
+                giftsRef.add(newGift);
             }
 
             dismiss();
         });
 
         deleteButton.setOnClickListener(v -> {
-            if (gift != null && gift.getId() != null) {
-                new AlertDialog.Builder(requireContext())
-                        .setTitle("Удалить подарок?")
-                        .setMessage("Вы уверены, что хотите удалить этот подарок?")
-                        .setPositiveButton("Удалить", (dialog, which) -> {
-                            FirebaseFirestore.getInstance()
-                                    .collection("wishlists")
-                                    .document(wishlistId)
-                                    .collection("gifts")
-                                    .document(gift.getId())
-                                    .delete();
-                            dismiss();
-                        })
-                        .setNegativeButton("Отмена", null)
-                        .show();
+            if (wishlistId == null || gift == null || gift.getId() == null) {
+                Log.e("GiftBottomSheet", "Ошибка удаления: отсутствует wishlistId или gift");
+                return;
             }
+
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Удалить подарок?")
+                    .setMessage("Вы уверены, что хотите удалить этот подарок?")
+                    .setPositiveButton("Удалить", (dialog, which) -> {
+                        FirebaseFirestore.getInstance()
+                                .collection("wishlists")
+                                .document(wishlistId)
+                                .collection("gifts")
+                                .document(gift.getId())
+                                .delete();
+
+                        dismiss();
+                    })
+                    .setNegativeButton("Отмена", null)
+                    .show();
         });
 
         return view;
