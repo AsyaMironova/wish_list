@@ -12,6 +12,8 @@ import com.example.wishlist.data.FirebaseRepository;
 import com.example.wishlist.models.User;
 import com.example.wishlist.models.WishList;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.List;
 
@@ -57,7 +59,7 @@ public class ProfileViewModel extends ViewModel {
     }
 
     public LiveData<String> getProfileImageUrl() {
-        return Transformations.map(userLiveData, User::getImageUrl);
+        return Transformations.map(userLiveData, User::getProfileImageUrl);
     }
 
     public LiveData<List<WishList>> getWishlists() {
@@ -154,7 +156,7 @@ public class ProfileViewModel extends ViewModel {
         repository.uploadUserProfileImage(imageUri, new FirebaseRepository.OnImageUploadListener() {
             @Override
             public void onSuccess(String imageUrl) {
-                // Optionally update userLiveData
+                // Можно обновить userLiveData, если нужно
             }
 
             @Override
@@ -177,5 +179,29 @@ public class ProfileViewModel extends ViewModel {
                 error.setValue(e.getMessage());
             }
         });
+    }
+
+    public void validateUserId(String userId, OnUserIdValidationListener listener) {
+        String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .whereEqualTo("user_id", userId)
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    boolean isTaken = false;
+                    for (QueryDocumentSnapshot doc : snapshot) {
+                        if (!doc.getId().equals(currentUid)) {
+                            isTaken = true;
+                            break;
+                        }
+                    }
+                    listener.onResult(!isTaken);
+                })
+                .addOnFailureListener(e -> listener.onResult(false));
+    }
+
+    public interface OnUserIdValidationListener {
+        void onResult(boolean isFree);
     }
 }

@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -237,5 +238,27 @@ public class FirebaseRepository {
                 .delete()
                 .addOnSuccessListener(unused -> listener.onSuccess())
                 .addOnFailureListener(listener::onFailure);
+    }
+
+    public void checkUserIdExists(String userId, String excludeUid, OnUserIdCheckListener listener) {
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .whereEqualTo("user_id", userId)
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    boolean taken = false;
+                    for (QueryDocumentSnapshot doc : snapshot) {
+                        if (!doc.getId().equals(excludeUid)) {
+                            taken = true;
+                            break;
+                        }
+                    }
+                    listener.onCheck(taken);
+                })
+                .addOnFailureListener(e -> listener.onCheck(false));
+    }
+
+    public interface OnUserIdCheckListener {
+        void onCheck(boolean exists);
     }
 }

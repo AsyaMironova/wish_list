@@ -1,18 +1,54 @@
 package com.example.wishlist.models;
 
 public class User {
-    private String name;
-    private String nickname;
-    private String description;
-    private String about;
+
     private String id;
-    private String userId;
-    private String imageUrl;
-
-    public User() {}
-
+    private String name;
+    private String email;
     private String profileImageUrl;
+    private String about;
+    private String nickname;
+    private String user_id;
 
+    public User() {
+        // Firestore требует пустой конструктор
+    }
+
+    public User(String id, String name, String email, String profileImageUrl) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    // ID документа Firestore
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    // Отображаемое имя пользователя
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    // Email
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    // Ссылка на изображение профиля
     public String getProfileImageUrl() {
         return profileImageUrl;
     }
@@ -21,63 +57,30 @@ public class User {
         this.profileImageUrl = profileImageUrl;
     }
 
-    public User(String name, String nickname, String description, String about) {
-        this.name = name;
-        this.nickname = nickname;
-        this.description = description;
-        this.about = about;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public String getId() {return id;}
-    public String getDescription() {
-        return description;
-    }
-
+    // Описание
     public String getAbout() {
         return about;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public void setAbout(String about) {
         this.about = about;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    // Никнейм (для отображения)
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
+
+    // Юзер ID (уникальный id для профиля, задаётся пользователем)
     public String getUserId() {
-        return userId;
+        return user_id;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public void setUserId(String user_id) {
+        this.user_id = user_id;
     }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
 }

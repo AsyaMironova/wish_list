@@ -22,7 +22,6 @@ import com.example.wishlist.models.WishList;
 import com.example.wishlist.ui.gifts.GiftListFragment;
 import com.example.wishlist.viewmodels.ProfileViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileFragment extends Fragment {
 
@@ -58,9 +57,7 @@ public class ProfileFragment extends Fragment {
             new AlertDialog.Builder(requireContext())
                     .setTitle("Удалить виш-лист?")
                     .setMessage("Вы уверены, что хотите удалить виш-лист \"" + wishlist.getName() + "\"?")
-                    .setPositiveButton("Удалить", (dialog, which) -> {
-                        viewModel.deleteWishlist(wishlist);
-                    })
+                    .setPositiveButton("Удалить", (dialog, which) -> viewModel.deleteWishlist(wishlist))
                     .setNegativeButton("Отмена", null)
                     .show();
         });
@@ -68,10 +65,26 @@ public class ProfileFragment extends Fragment {
 
         viewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
 
-        viewModel.getUserNickname().observe(getViewLifecycleOwner(), editTextNickname::setText);
-        viewModel.getUserId().observe(getViewLifecycleOwner(), editTextUserId::setText);
-        viewModel.getUserAbout().observe(getViewLifecycleOwner(), editTextAbout::setText);
+        viewModel.getUserNickname().observe(getViewLifecycleOwner(), nickname -> {
+            if (!editTextNickname.isFocused()) {
+                editTextNickname.setText(nickname);
+            }
+        });
+
+        viewModel.getUserId().observe(getViewLifecycleOwner(), userId -> {
+            if (!editTextUserId.isFocused()) {
+                editTextUserId.setText(userId);
+            }
+        });
+
+        viewModel.getUserAbout().observe(getViewLifecycleOwner(), about -> {
+            if (!editTextAbout.isFocused()) {
+                editTextAbout.setText(about);
+            }
+        });
+
         viewModel.getWishlists().observe(getViewLifecycleOwner(), wishlistAdapter::setWishlists);
+
         viewModel.getProfileImageUrl().observe(getViewLifecycleOwner(), url ->
                 Glide.with(requireContext()).load(url)
                         .placeholder(R.drawable.ic_profile)
@@ -87,7 +100,7 @@ public class ProfileFragment extends Fragment {
         });
 
         editTextUserId.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) viewModel.updateUserId(editTextUserId.getText().toString());
+            if (!hasFocus) viewModel.updateUserId(editTextUserId.getText().toString().trim());
         });
 
         fabCreateWishlist.setOnClickListener(v -> {
@@ -102,10 +115,11 @@ public class ProfileFragment extends Fragment {
         viewModel.fetchUser();
 
         return view;
-
     }
 
     @Override
     public void onResume() {
-        super.onResume(); }
+        super.onResume();
+        viewModel.fetchUser(); // Обновление из настроек
+    }
 }
