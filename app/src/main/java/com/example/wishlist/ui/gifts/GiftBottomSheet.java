@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.wishlist.R;
+import com.example.wishlist.models.Gift;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class GiftBottomSheet extends BottomSheetDialogFragment {
 
@@ -39,7 +41,6 @@ public class GiftBottomSheet extends BottomSheetDialogFragment {
         Button saveButton = view.findViewById(R.id.buttonSaveGift);
         Button deleteButton = view.findViewById(R.id.buttonDeleteGift);
 
-        // Показываем delete, только если режим редактирования
         if (isEditMode) {
             deleteButton.setVisibility(View.VISIBLE);
         }
@@ -47,8 +48,8 @@ public class GiftBottomSheet extends BottomSheetDialogFragment {
         saveButton.setOnClickListener(v -> {
             String name = nameEditText.getText().toString().trim();
             String desc = descEditText.getText().toString().trim();
-            String price = priceEditText.getText().toString().trim();
             String link = linkEditText.getText().toString().trim();
+            String price = priceEditText.getText().toString().trim();
 
             if (name.isEmpty()) {
                 nameEditText.setError("Введите название подарка");
@@ -92,6 +93,26 @@ public class GiftBottomSheet extends BottomSheetDialogFragment {
 
     public interface OnGiftSaveListener {
         void onSave(String name, String description, String price, String link);
+    }
+
+    public static GiftBottomSheet newInstance(Gift gift) {
+        GiftBottomSheet bottomSheet = new GiftBottomSheet();
+        Bundle args = new Bundle();
+        args.putString("giftId", gift.getId());
+        args.putString("title", gift.getTitle());
+        args.putString("description", gift.getDescription());
+        args.putString("link", gift.getLink());
+        bottomSheet.setArguments(args);
+        return bottomSheet;
+    }
+
+    public void deleteGift(String wishlistId, String giftId) {
+        FirebaseFirestore.getInstance()
+                .collection("wishlists")
+                .document(wishlistId)
+                .collection("gifts")
+                .document(giftId)
+                .delete();
     }
 
     public interface OnGiftDeleteListener {

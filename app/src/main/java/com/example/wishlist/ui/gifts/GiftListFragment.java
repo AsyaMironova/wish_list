@@ -15,11 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wishlist.R;
 import com.example.wishlist.adapters.GiftsAdapter;
-import com.example.wishlist.models.Gift;
+import com.example.wishlist.ui.gifts.GiftBottomSheet;
 import com.example.wishlist.viewmodels.GiftsViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class GiftListFragment extends Fragment {
 
@@ -41,12 +39,30 @@ public class GiftListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gift_list, container, false);
+        if (view == null) throw new IllegalStateException("View is null in onCreateView");
 
-        recyclerView = view.findViewById(R.id.recyclerView);
-        progressBar = view.findViewById(R.id.progressBar);
+        recyclerView = view.findViewById(R.id.recyclerViewGifts);
+        progressBar = view.findViewById(R.id.progressBarGifts);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        giftAdapter = new GiftsAdapter();
+        giftAdapter = new GiftsAdapter(
+                gift -> {
+                    // Редактирование подарка через GiftBottomSheet
+                    GiftBottomSheet bottomSheet = GiftBottomSheet.newInstance(gift);
+                    bottomSheet.show(getParentFragmentManager(), "EditGiftBottomSheet");
+                },
+                gift -> {
+                    // Подтверждение удаления подарка
+                    new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                            .setTitle("Удалить подарок?")
+                            .setMessage("Вы уверены, что хотите удалить \"" + gift.getTitle() + "\"?")
+                            .setPositiveButton("Удалить", (dialog, which) -> {
+                                viewModel.deleteGift(wishlistId, gift.getId());
+                            })
+                            .setNegativeButton("Отмена", null)
+                            .show();
+                }
+        );
         recyclerView.setAdapter(giftAdapter);
 
         viewModel = new ViewModelProvider(this).get(GiftsViewModel.class);
@@ -55,7 +71,14 @@ public class GiftListFragment extends Fragment {
             progressBar.setVisibility(View.GONE);
         });
 
+        FloatingActionButton buttonAddGift = view.findViewById(R.id.buttonAddGift);
+        buttonAddGift.setOnClickListener(v -> {
+            GiftBottomSheet bottomSheet = new GiftBottomSheet();
+            bottomSheet.show(getParentFragmentManager(), "GiftBottomSheet");
+        });
+
         wishlistId = getArguments() != null ? getArguments().getString("wishlistId") : "";
+        progressBar.setVisibility(View.VISIBLE);
         viewModel.loadGifts(wishlistId);
 
         return view;

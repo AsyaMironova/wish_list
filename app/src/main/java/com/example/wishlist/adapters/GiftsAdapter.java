@@ -11,61 +11,66 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.wishlist.R;
 import com.example.wishlist.models.Gift;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GiftsAdapter extends RecyclerView.Adapter<GiftsAdapter.GiftViewHolder> {
 
-    private List<Gift> gifts;
+    private final OnGiftClickListener clickListener;
+    private final OnGiftDeleteListener deleteListener;
+    private List<Gift> giftList = new ArrayList<>();
 
-    public GiftsAdapter() {
+    public GiftsAdapter(OnGiftClickListener clickListener, OnGiftDeleteListener deleteListener) {
+        this.clickListener = clickListener;
+        this.deleteListener = deleteListener;
     }
 
-
-    public void setData(List<Gift> gifts) {
-        this.gifts.clear();
-        this.gifts.addAll(gifts);
+    public void setGiftList(List<Gift> gifts) {
+        this.giftList = gifts;
         notifyDataSetChanged();
     }
-
 
     @NonNull
     @Override
     public GiftViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_gift, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_gift, parent, false);
         return new GiftViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull GiftViewHolder holder, int position) {
-        Gift gift = gifts.get(position);
-        holder.textViewName.setText(gift.getName());
-        holder.textViewPrice.setText(gift.getPrice() + " ₽");
-        holder.textViewDesc.setText(gift.getDescription());
-    }
-
-    public void setGifts(List<Gift> gifts) {
-        this.gifts = gifts;
-        notifyDataSetChanged();
+        Gift gift = giftList.get(position);
+        holder.bind(gift);
     }
 
     @Override
     public int getItemCount() {
-        return gifts.size();
+        return giftList.size();
     }
 
-    public void setGiftList(List<Gift> gifts) {
-    }
+    
 
-
-    static class GiftViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewName, textViewPrice, textViewDesc;
-
+    class GiftViewHolder extends RecyclerView.ViewHolder {
         public GiftViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewName = itemView.findViewById(R.id.textViewGiftName);
-            textViewPrice = itemView.findViewById(R.id.textViewGiftPrice);
-            textViewDesc = itemView.findViewById(R.id.textViewGiftDescription);
+            itemView.setOnClickListener(v -> clickListener.onGiftClick(giftList.get(getAdapterPosition())));
+            itemView.setOnLongClickListener(v -> {
+                deleteListener.onGiftDelete(giftList.get(getAdapterPosition()));
+                return true;
+            });
         }
+
+
+        public void bind(Gift gift) {
+            // Привязка данных к itemView
+        }
+    }
+
+    public interface OnGiftClickListener {
+        void onGiftClick(Gift gift);
+    }
+
+    public interface OnGiftDeleteListener {
+        void onGiftDelete(Gift gift);
     }
 }
